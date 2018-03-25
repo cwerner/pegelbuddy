@@ -31,7 +31,8 @@ for row in mylist:
     d_dict = dict([('V%02d'%i,v) for i, v in enumerate(row)])
     df_stations = df_stations.append(d_dict, ignore_index=True)
 
-df_stations.to_csv('stations.csv', index=False)
+df_stations.to_csv('stations.csv', index=False, sep=";")
+
 
 #
 # http://www.hvz.baden-wuerttemberg.de/map_peg.html
@@ -39,8 +40,8 @@ df_stations.to_csv('stations.csv', index=False)
 
 # Download the file from `url` and save it locally under `file_name`:
 
-
 for cnt, row in enumerate(df_stations.iterrows()):
+
     V17=row[1].loc['V17']
     
     fname=f"{V17}_LIS.GIF"
@@ -108,8 +109,8 @@ for cnt, row in enumerate(df_stations.iterrows()):
            
         df = df.append({'date': date, 'value': value}, ignore_index=True)
 
-    df.to_csv(outfile[:-4]+'.csv', index=False, sep=';')
+    outfile = os.path.basename(outfile)
+    df.to_csv(os.path.join('csvs', outfile[:-4]+'.csv'), index=False, sep=';')
 
-
-    if cnt == 10:
+    if cnt == 150:
         exit()
